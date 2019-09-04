@@ -43,14 +43,13 @@ export default {
         onSubmit() {
             auth.login(this.email, this.password)
                 .then(data => {
-                    console.log(data);
                     localStorage.setItem('token', data.accessToken)
                     setAuthInHeader(data.accessToken)
                     this.$router.push(this.rPath)
                     
                 })
                 .catch(err => {
-                    console.log(err.data)
+                    console.log(err)
                     //this.error = err.data.error
                 })
         }
