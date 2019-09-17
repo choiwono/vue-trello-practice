@@ -81,6 +81,7 @@ export default {
   height: 100px;
   margin: 0 2% 20px 0;
   border-radius: 3px;
+  background: #eeeeee;
 }
 .board-item a {
   text-decoration: none;
