@@ -1,4 +1,4 @@
-import { board, auth } from '../api'
+import { board, auth, card } from '../api'
 
 const actions = {
     LOGIN({ commit }, { email, password }) {
@@ -16,6 +16,10 @@ const actions = {
     FETCH_BOARD({ commit }, {id}) {
         return board.fetch(id)
             .then(data => commit('SET_BOARD', data.item))
+    },
+    ADD_CARD ({ state, dispatch }, { title, listId, pos }){
+        return card.create(title, listId, pos)
+            .then(() => dispatch('FETCH_BOARD', state.board.id ) )
     }
 }
 

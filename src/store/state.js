@@ -1,7 +1,7 @@
 const state = {
     isAddBoard: false,
     boards: [],
-    board: {},
+    board: { },
     token: null
 }
 
