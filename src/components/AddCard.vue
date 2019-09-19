@@ -1,7 +1,7 @@
 <template>
     <div class="add-card">
-        <form @submit.prevent="onSubmit()">
-            <input class="form-control" type="text" ref="inputText" v-model="inputTitle">
+        <form @submit.prevent="onSubmitNewCard">
+            <input class="form-control" type="text" v-model="inputCardTitle" ref="inputCardTitle">
             <button class="btn btn-success" type="submit" :disabled="invalidInput">Add Card</button>
             <a class="cancel-add-btn" href="" @click.prevent="$emit('close')">&times;</a>
         </form>
@@ -15,28 +15,28 @@ export default {
     props: ['list-id'],
     data() {
         return {
-            inputTitle: ''
+            inputCardTitle: ''
         }
     },
     computed: {
         invalidInput() {
-            return !this.inputTitle.trim()
+            return !this.inputCardTitle.trim()
         }
     },
     mounted() {
-        this.$refs.inputText.focus()
+        this.$refs.inputCardTitle.focus()
         this.setupClickOutside(this.$el)
     },
     methods: {
         ...mapActions([
             'ADD_CARD'
         ]),
-        onSubmit(){
-            if (this.invalidInput) return
-            const { inputTitle, listId } = this
+        onSubmitNewCard(){
+            if (this.invalidInput) return 
+            const { inputCardTitle, listId } = this
             console.log(this)
-            this.ADD_CARD({ title:inputTitle, listId })
-                .finally(() => this.inputTitle = '') 
+            this.ADD_CARD({title:inputCardTitle, listId})
+                .finally(_=> this.inputCardTitle = '')
         },
         setupClickOutside(el) {
             document.querySelector('body').addEventListener('click', e => {
