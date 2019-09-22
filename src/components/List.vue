@@ -3,7 +3,9 @@
         <div class="list-header">
           <div class="list-header-title">{{ data.title }}</div>
         </div>
-
+        <div class="card-list">
+          <CardItem v-for="card in data.cards" :key="card.id" :data="card" />
+        </div>
         <div v-if="isAddCard">
           <AddCard @close="isAddCard=false" :list-id="data.id" />
         </div>
@@ -17,9 +19,10 @@
 
 <script>
 import AddCard from './AddCard.vue'
+import CardItem from './CardItem.vue'
 
 export default {
-    components: { AddCard },
+    components: { AddCard, CardItem },
     props: ['data'],
     data() {
       return { 
@@ -66,7 +69,7 @@ export default {
 }
 .card-list {
   flex: 1 1 auto;
-  overflow-y: scroll;
+  /*overflow-y: scroll;*/
 }
 .empty-card-item   {
   height: 10px;

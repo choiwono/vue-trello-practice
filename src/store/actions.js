@@ -17,9 +17,18 @@ const actions = {
         return board.fetch(id)
             .then(data => commit('SET_BOARD', data.item))
     },
-    ADD_CARD ({ state, dispatch }, { title, listId, pos }){
+    ADD_CARD ({dispatch,state}, {title, listId, pos}){
         return card.create(title, listId, pos)
-            .then(() => dispatch('FETCH_BOARD', state.board.id ) )
+            .then(() => dispatch('FETCH_BOARD', {id:state.board.id}))
+    },
+    FETCH_CARD({commit}, {id}){
+        return card.fetch(id).then(data => {
+            commit('SET_CARD', data.item)
+        })
+    },
+    UPDATE_CARD({dispatch,state}, {id, title, description, pos, listId}){
+        return card.update(id, {title, description, pos, listId})
+            .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
     }
 }
 
