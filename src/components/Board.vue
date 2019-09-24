@@ -4,6 +4,9 @@
             <div class="board">
                 <div class="board-header">
                     <span class="board-title">{{ board.title }}</span>
+                    <a class="board-header-btn show-menu" href="" @click.prevent="onShowSettings">
+                      ... Show Menu
+                    </a>
                 </div>
                 <div class="list-section-wrapper">
                 <div class="list-section">
@@ -14,18 +17,21 @@
               </div>
             </div>
         </div>
+        <BoardSettings v-if="isShowBoardSettings"/>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import List from './List'
+import BoardSettings from './BoardSettings.vue'
 import dragger from '../utils/dragger'
 
 export default {
     components: {
-      List
+      List,
+      BoardSettings
     },
     data() {
        return {
@@ -36,16 +42,24 @@ export default {
     },
     computed: {
         ...mapState({
-            board : 'board'
+            board : 'board',
+            isShowBoardSettings : 'isShowBoardSettings'
         })
     },
     created() {
-        this.fetchData();
+        this.fetchData().then(() => {
+          this.SET_THEME(this.board.bgColor)
+          this.SET_IS_SHOW_BOARD_SETTINGS(false)
+        });
     },
     updated() {
       this.setCardDraggble()
     },
     methods : {
+        ...mapMutations([
+          'SET_THEME',
+          'SET_IS_SHOW_BOARD_SETTINGS'
+        ]),
         ...mapActions([
             'FETCH_BOARD',
             'UPDATE_CARD'
@@ -54,7 +68,7 @@ export default {
             // 백엔드 데이타 호출
             this.loading = true
             //console.log(this.$route.params.bid)
-            this.FETCH_BOARD({ id : this.$route.params.bid })
+            return this.FETCH_BOARD({ id : this.$route.params.bid })
                 .then(() => this.loading = false )
         },
         setCardDraggble() {
@@ -76,6 +90,9 @@ export default {
               
               this.UPDATE_CARD(targetCard)
             })
+        },
+        onShowSettings() {
+          this.SET_IS_SHOW_BOARD_SETTINGS(true)
         }
     }
 }
