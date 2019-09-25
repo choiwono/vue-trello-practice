@@ -28,8 +28,14 @@ export const board = {
     fetch(id) {
         return id ? request('get', `/boards/${id}`) : request('get','/boards')
     },
+    update(id, payload){
+        return request('put',`/boards/${id}`,payload)
+    },
     create(title) {
         return request('post', '/boards', { title })
+    },
+    destory(id) {
+        return request('delete', `/boards/${id}`)
     }
 }
 
